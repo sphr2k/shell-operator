@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-caddyAPI=172.25.2.170:2019
-
 if [[ $1 == "--config" ]] ; then
   cat <<EOF
 configVersion: v1
@@ -17,12 +15,12 @@ else
   curlResult=$(curl --write-out '%{http_code}' --silent --output /dev/null -X PATCH \
     -H "Content-Type: application/json" \
     -d "${nodes}" \
-    "${caddyAPI}/config/apps/http/servers/srv0/routes/0/handle/0/routes/0/handle/0/upstreams/")
+    "${CADDY_API}/config/apps/http/servers/srv0/routes/0/handle/0/routes/0/handle/0/upstreams/")
 
   if [[ $curlResult == "200" ]]; then
-    echo "Caddy endpoint update: OK"
+    echo "Caddy upstream update: OK"
   else
-    echo "Caddy endpoint update: Error"
+    echo "Caddy upstream update: Error"
   fi
 
 fi

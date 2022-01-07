@@ -1,22 +1,59 @@
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: caddylb-controller
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: caddylb-controller
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: monitor-pods
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: monitor-pods
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: monitor-pods
+subjects:
+  - kind: ServiceAccount
+    name: caddylb-controller
+    namespace: caddylb-controller
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: update-loadbalancer
+  name: caddylb-controller
   labels:
-    app: update-loadbalancer
+    app: caddylb-controller
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: update-loadbalancer
+      app: caddylb-controller
   template:
     metadata:
       labels:
-        app: update-loadbalancer
+        app: caddylb-controller
     spec:
       containers:
       - name: shell-operator
-        image: janwer/shell-operator:update-loadbalancer
+        image: ghcr.io/sphr2k/shell-operator:latest
         imagePullPolicy: Always
-      serviceAccountName: update-loadbalancer-account
+        env:
+        - name: CADDY_API
+          value: "172.25.2.170:2019"
+        - name: INGRESS_NODEPORT
+          value: "32080"
+      serviceAccountName: caddylb-controller

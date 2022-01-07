@@ -1,2 +1,2 @@
 FROM flant/shell-operator:latest
-ADD pods-hook.sh /hooks
+ADD nodes-hook.sh /hooks

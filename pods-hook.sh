@@ -9,7 +9,5 @@ kubernetes:
   executeHookOnEvent: ["Added"]
 EOF
 else
-  #podName=$(jq -r .[0].object.metadata.name $BINDING_CONTEXT_PATH)
-  #echo "Pod added: '${podName}'"
-  echo $BINDING_CONTEXT_PATH
+  jq -r $BINDING_CONTEXT_PATH
 fi

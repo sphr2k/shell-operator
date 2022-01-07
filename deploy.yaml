@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
   - name: shell-operator-monitor-pods
-    image: janwer/shell-operator:monitor-pods
+    image: janwer/shell-operator:latest
     imagePullPolicy: Always
   serviceAccountName: monitor-pods-acc

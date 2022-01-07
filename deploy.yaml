@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: example-monitor-pods
+  name: monitor-pods
+spec:
+  containers:
+  - name: shell-operator-monitor-pods
+    image: janwer/shell-operator:monitor-pods
+    imagePullPolicy: Always
+  serviceAccountName: monitor-pods-acc

@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: update-loadbalancer
+  labels:
+    app: update-loadbalancer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: update-loadbalancer
+  template:
+    metadata:
+      labels:
+        app: update-loadbalancer
+    spec:
+      containers:
+      - name: shell-operator
+        image: janwer/shell-operator:update-loadbalancer
+        imagePullPolicy: Always
+      serviceAccountName: update-loadbalancer-account
